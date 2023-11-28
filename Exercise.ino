@@ -152,7 +152,9 @@ int buzz_current = 0;    // 0 = dont buzz, 1 = do buzz
 
 ///////////////////////////////
 // ticks
-void tick_rng(){      // tick for rng
+
+// tick for rng
+void tick_rng(){
   switch(state_rng){
   case RNG_WAIT:
     // rng_printSequence(); - only include during testing
@@ -172,7 +174,8 @@ void tick_rng(){      // tick for rng
   }
 }
 
-void tick_displaySequence(){  // tick for the 7-seg display's d1 value determinant
+// tick for the 7-seg display's d1 value determinant
+void tick_displaySequence(){  
   switch(state_dispSeq){
   case DISPSEQ_DISPLAY:
     dispSeq_rng = rng_sequence[dispSeq_index];  // get to-be-displayed # from rng_sequence
@@ -188,7 +191,8 @@ void tick_displaySequence(){  // tick for the 7-seg display's d1 value determina
   }
 }
 
-void tick_display(){  // tick for the 7 seg dislay
+// tick for the 7 seg display
+void tick_display(){  
   switch(state_disp){
   case DISP_CNT_ONES:
     disp_displayTo7Seg(cnt % 10, 1);    // display one's place digit on d3
@@ -205,8 +209,9 @@ void tick_display(){  // tick for the 7 seg dislay
   }
 }
 
-void game_processInput(int input);  // prototype, process input from IR remote
+void game_processInput(int input);  // prototype
 
+// tick for ir receiver
 void tick_ir(){
   switch(state_ir){
   case IR_SCAN:
@@ -231,6 +236,7 @@ void tick_ir(){
   }
 }
 
+// tick for buzzer
 void tick_buzzer(){
   switch(state_buzzer){
   case BUZZ_WAIT:
@@ -254,9 +260,12 @@ void tick_buzzer(){
 
 /////////////////////
 // game funcs
-void game_roundCompleted();
+
+// When all numbers in sequence have been successfully inputted
+void game_roundCompleted(); 
 void game_continue();
-void game_mistake();
+void game_mistake();       
+// Process whether or not the input is correct and if the sequence has been fully memorized
 void game_processInput(int input){
   if(input == rng_sequence[curr_cnt]){
     if((curr_cnt + 1) == rng_sequenceCurrent){
@@ -279,11 +288,13 @@ void game_roundCompleted(){
   state_buzzer = BUZZ_CLICKREGISTERED;
 }
 
+// To move onto the next number in the sequence
 void game_continue(){
   curr_cnt++;
   state_buzzer = BUZZ_CLICKREGISTERED;
 }
 
+// When the player input incorrect value
 void game_mistake(){
   curr_cnt = 0;
   cnt = 0;
@@ -333,7 +344,6 @@ void scheduleTasks(){
 }
 
 void setup() {
-  // put your setup code here, to run once:
   pinMode(A0, INPUT);
   pinMode(buzz_pin, OUTPUT);
   pinMode(gSegPins[0], OUTPUT);
@@ -364,8 +374,6 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  //state_rng = RNG_GENERATE;
   scheduleTasks();
   while(TimerFlag == 0){}
   TimerFlag = 0;
