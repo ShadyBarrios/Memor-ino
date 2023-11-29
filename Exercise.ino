@@ -80,9 +80,18 @@ int dispSeq_index = 0;  // to know which index is being displayed from the seque
 ////////////////////////
 // INTRO IS INDEPENDENT OF OTHER TASKS
 const int intro_pin = 12;         // output pin of passive buzzer
-const int intro_numOfNotes = 16;  // number of notes in intro
+const int intro_numOfNotes = 32;  // number of notes in intro
 int intro_currentNote = 0;  // current note being played
-unsigned int intro_notes[] = {92, 92, 138, 92, 146, 92, 138, 92, 123, 103, 110, 103, 123, 110, 103, 82}; // sequence of frequencies that plays crazy train
+unsigned int intro_notes[] = {
+  220, 220, 262, 220, // a3a3c4a3
+  294, 220, 330, 294, // d4a3e4d4
+  262, 262, 330, 262, // c4c4e4c4
+  392, 220, 330, 262, // g4a3e4c4
+  196, 196, 247, 196, // g3g3b3g3
+  262, 196, 294, 262, // c4g3d4c4
+  175, 175, 220, 175, // f3f3a3f3
+  262, 275, 262, 247  // c4f3c4b3
+}; // sequence of frequencies that plays crazy train
 
 // plays note at intro_notes[i] hz on passive buzzer
 void intro_playNote(int i){
@@ -93,7 +102,7 @@ void intro_playNote(int i){
 void intro_play(){
   for(int i = 0; i < intro_numOfNotes; i++){
     intro_playNote(i);
-    for(int j = 0; j < 40; j++){  // wait period * 40 between each note
+    for(int j = 0; j < 45; j++){  // wait period * 40 between each note
       while(TimerFlag == 0){}
       TimerFlag = 0;
     }
